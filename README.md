@@ -4,6 +4,12 @@ Detects 23 propaganda and persuasion techniques in text using LLMs (DSPy + OpenA
 
 ![Pipeline overview](pipeline_overview.png)
 
+## Install the beta release
+
+```bash
+pip install git+https://github.com/marcelomendoza/propaganda-pipeline.git@v0.1.0-beta
+```
+
 ## Requirements
 
 - Python ≥ 3.10
