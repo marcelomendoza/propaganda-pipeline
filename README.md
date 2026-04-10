@@ -2,9 +2,35 @@
 
 Detects 23 propaganda and persuasion techniques in text using LLMs (DSPy + OpenAI).
 
-## Documentation
+## Requirements
 
-After cloning the repo, open the API reference locally:
+- Python ≥ 3.10
+- OpenAI API key
+
+## Setup on a new machine
+
+**1. Clone the repo**
+
+```bash
+git clone https://github.com/marcelomendoza/propaganda-pipeline.git
+cd propaganda-pipeline
+```
+
+**2. Install the package and its dependencies**
+
+```bash
+pip install -e .
+```
+
+**3. Set your OpenAI API key**
+
+```bash
+export OPENAI_API_KEY="sk-..."
+```
+
+Add that line to your `~/.bashrc` or `~/.zshrc` to make it permanent.
+
+**4. Open the documentation**
 
 ```bash
 # Linux
@@ -13,13 +39,7 @@ xdg-open docs/index.html
 open docs/index.html
 ```
 
-Includes full API reference and usage tutorial.
-
-## Installation
-
-```bash
-pip install git+https://github.com/marcelomendoza/propaganda-pipeline.git
-```
+The docs include the full API reference and a usage tutorial.
 
 ## Quick start
 
@@ -69,8 +89,3 @@ See `propaganda_pipeline_tutorial.ipynb` or `docs/tutorial.html` for a full walk
 | NAME_CALLING | Derogatory labeling |
 | CAUSAL_OVERSIMPLIFICATION | Attributing complex outcomes to a single cause |
 | FALSE_DILEMMA | Presenting only two options when more exist |
-
-## Requirements
-
-- Python ≥ 3.10
-- OpenAI API key
