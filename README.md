@@ -2,6 +2,8 @@
 
 Detects 23 propaganda and persuasion techniques in text using LLMs (DSPy + OpenAI).
 
+![Pipeline overview](pipeline_overview.png)
+
 ## Requirements
 
 - Python ≥ 3.10
