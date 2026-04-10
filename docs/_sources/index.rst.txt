@@ -1,0 +1,18 @@
+Propaganda Pipeline
+===================
+
+A propaganda-technique detection pipeline built on DSPy + OpenAI.
+Detects 23 persuasion techniques in text using LLMs, consistency voting, and an LLM judge.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   tutorial
+   api
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`

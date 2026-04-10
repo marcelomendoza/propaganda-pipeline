@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "propaganda-pipeline"
+version = "1.0.0"
+description = "Propaganda technique detection pipeline using DSPy + OpenAI (23 techniques)"
+authors = [{ name = "Marcelo Mendoza", email = "mmendoza@inf.utfsm.cl" }]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+dependencies = [
+    "dspy>=2.6",
+    "pydantic>=2.9",
+    "ipython>=8.7",
+    "openai>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["sphinx>=8", "furo", "nbsphinx", "jupyter"]
+
+[tool.setuptools]
+py-modules = ["propaganda_pipeline"]
