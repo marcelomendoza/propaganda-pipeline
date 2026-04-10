@@ -2,7 +2,18 @@
 
 Detects 23 propaganda and persuasion techniques in text using LLMs (DSPy + OpenAI).
 
-**[API Documentation](https://marcelomendoza.github.io/propaganda-pipeline/)** — full reference + usage tutorial
+## Documentation
+
+After cloning the repo, open the API reference locally:
+
+```bash
+# Linux
+xdg-open docs/index.html
+# Mac
+open docs/index.html
+```
+
+Includes full API reference and usage tutorial.
 
 ## Installation
 
@@ -29,7 +40,7 @@ print(result["synthesis"]["final_answer"])
 print(result["selected_models_posthoc"]["selected_models"])
 ```
 
-See the [online tutorial](https://marcelomendoza.github.io/propaganda-pipeline/tutorial.html) or `propaganda_pipeline_tutorial.ipynb` for a full walkthrough.
+See `propaganda_pipeline_tutorial.ipynb` or `docs/tutorial.html` for a full walkthrough.
 
 ## Detected techniques (23)
 
