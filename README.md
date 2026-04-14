@@ -45,6 +45,8 @@ Add that line to your `~/.bashrc` or `~/.zshrc` to make it permanent.
 xdg-open docs/index.html
 # Mac
 open docs/index.html
+# Windows
+Start-Process .\docs\index.html
 ```
 
 The docs include the full API reference and a usage tutorial.
