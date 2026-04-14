@@ -1,0 +1,4 @@
+dspy>=2.6
+pydantic>=2.9
+ipython>=8.7
+openai>=1.0

@@ -125,34 +125,34 @@ class Conteo(pydantic.BaseModel):
     """(fragment, count) pair quantifying a repeated unit in the text.
 
     Attributes:
-        fragmento: The repeated text fragment (max 120 chars).
-        veces: Approximate number of occurrences in the source text.
+        fragment: The repeated text fragment (max 120 chars).
+        count: Approximate number of occurrences in the source text.
     """
 
-    fragmento: pydantic.constr(max_length=120)
-    veces: int
+    fragment: pydantic.constr(max_length=120)
+    count: int
 
 
 class JuicioRepetition(pydantic.BaseModel):
     """LLM output for the REPETITION detector.
 
     Key fields: ``usa_repetition`` (Sí/No binary verdict),
-    ``fragmentos_repetidos`` (repeated n-grams), ``conteos_aprox``
-    (per-fragment occurrence counts), ``tipo_repeticion`` (rhetorical
-    category), ``citas`` (up to 3 verbatim quotes), and ``confidence``.
+    ``repeated_fragments`` (repeated n-grams), ``approximate_counts``
+    (per-fragment occurrence counts), ``repetition_type`` (rhetorical
+    category), ``quotes`` (up to 3 verbatim quotes), and ``confidence``.
     """
     usa_repetition: Literal["Sí", "No"]
     claim: Optional[pydantic.constr(max_length=300)] = None
-    fragmentos_repetidos: List[pydantic.constr(max_length=120)]
-    conteos_aprox: List[Conteo]
-    tipo_repeticion: List[
+    repeated_fragments: List[pydantic.constr(max_length=120)]
+    approximate_counts: List[Conteo]
+    repetition_type: List[
         Literal["anáfora", "epífora", "eslogan", "hashtag", "estribillo", "historia", "imagen"]
     ]
-    justificacion: pydantic.constr(max_length=300)
-    citas: List[pydantic.constr(max_length=120)]
-    dudas_o_limitaciones: pydantic.constr(max_length=300)
+    justification: pydantic.constr(max_length=300)
+    quotes: List[pydantic.constr(max_length=120)]
+    limitations: pydantic.constr(max_length=300)
     confidence: pydantic.confloat(ge=0.0, le=1.0)
-    justificacion_confidence: pydantic.constr(max_length=300)
+    confidence_justification: pydantic.constr(max_length=300)
 
 
 class DetectaRepetition(dspy.Signature):
@@ -279,15 +279,15 @@ class RepetitionRunner(TechniqueRunner):
 
         # Span: preferimos citas o fragmentos repetidos (ajustable)
         span = []
-        if salida_obj.citas:
-            span = salida_obj.citas[:3]
-        elif salida_obj.fragmentos_repetidos:
-            span = salida_obj.fragmentos_repetidos[:3]
+        if salida_obj.quotes:
+            span = salida_obj.quotes[:3]
+        elif salida_obj.repeated_fragments:
+            span = salida_obj.repeated_fragments[:3]
 
         return {
             "model": self.name,
             "answer": answer,
-            "rationale_summary": salida_obj.justificacion,
+            "rationale_summary": salida_obj.justification,
             "confidence": float(salida_obj.confidence),
             "span": span,
             # Puedes agregar campos extra si quieres:
@@ -5359,7 +5359,7 @@ class SelectionOutputNormalized(BaseModel):
 # =========================
 
 class JudgeSignature(dspy.Signature):
-    """Evalúa y RANKEA candidatos; marca cuáles deben incluirse."""
+    """Evaluates and RANKS candidates; marks which ones should be included."""
     question: str = dspy.InputField(desc="pregunta original")
     candidates_json: str = dspy.InputField(
         desc="lista JSON con objetos {model, answer, rationale_summary, confidence, ratio}"
@@ -5374,7 +5374,7 @@ class JudgeSignature(dspy.Signature):
 
 
 class SynthesizeSignature(dspy.Signature):
-    """Produce respuesta final unificada SIN descartar 'must-include'."""
+    """Produce a unified final answer WITHOUT discarding 'must-include' items."""
     question: str = dspy.InputField()
     topk_json: str = dspy.InputField(desc="JSON con candidatos seleccionados (incluye flags include y strengths)")
     final_answer: str = dspy.OutputField(desc="respuesta clara (≤6 frases) listando TODAS las técnicas válidas")
@@ -5415,7 +5415,7 @@ def safe_json_loads(x: Any, default):
 
 
 def normalize_candidates(candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Normaliza spans y rationale para evitar crashes."""
+    """Normalizes spans and rationale to prevent crashes."""
     normed = []
     for c in candidates:
         c2 = dict(c)
@@ -5663,7 +5663,7 @@ SELECTOR_MOD: Optional[SelectJudgeCandidatesModule] = None
 
 
 def get_modules():
-    """Lazy init de módulos DSPy para no reinstanciarlos en cada llamada."""
+    """Lazy init of DSPy modules to avoid reinstantiating them on every call."""
     global JUDGE_MOD, SYNTH_MOD, SELECTOR_MOD
     if JUDGE_MOD is None:
         JUDGE_MOD = JudgeModule()
@@ -5880,7 +5880,7 @@ TRANS = str.maketrans({
 TRAIL_PUNCT = ".,;:!?)»”]›>"
 
 def norm_label(lbl: str) -> str:
-    """Normaliza etiqueta de técnica a formato 'STRAWMAN', 'FALSE_DILEMMA', etc."""
+    """Normalizes a technique label to the format 'STRAWMAN', 'FALSE_DILEMMA', etc."""
     return re.sub(r"[\s\-]+", "_", (lbl or "").strip()).upper()
 
 def strip_trailing_punct(s: str) -> str:
@@ -5954,7 +5954,7 @@ def find_occurrences_robust(text: str, phrase: str) -> List[Tuple[int, int]]:
     return mapped
 
 def normalize_spans_field(span_field: Any) -> List[str]:
-    """span puede ser None, str, list[str]."""
+    """span can be None, str, or list[str]."""
     if span_field is None:
         return []
     if isinstance(span_field, str):
@@ -6077,7 +6077,7 @@ def render_overlaps_inline_html(
     icon: str = "⚖️",
     accent_color: str = "#111827"
 ) -> str:
-    """Devuelve un HTML string que resalta spans (NO hace display)."""
+    """Returns an HTML string that highlights spans (does NOT display it)."""
 
     def badge_html(label: str, color: str) -> str:
         if badge_style == "solid":
