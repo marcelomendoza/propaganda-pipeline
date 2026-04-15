@@ -6,9 +6,9 @@
 <link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="API Reference" href="api.html"><link rel="prev" title="How to Install" href="install.html">
         <link rel="prefetch" href="_static/propaganda_logotipo.png" as="image">
 
-    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>Propaganda Pipeline — Usage Tutorial - Propaganda Pipeline 1.0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=acfd86a5" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -397,24 +397,24 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">propaganda_pipeline</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">Configuracion</span><span class="p">,</span>
-    <span class="n">Analisis</span><span class="p">,</span>
-    <span class="n">run_consistency</span><span class="p">,</span>
-    <span class="n">RunJuez</span><span class="p">,</span>
-    <span class="n">visualize_spans</span><span class="p">,</span>
-    <span class="n">synthesis_report</span><span class="p">,</span>
-    <span class="n">show_rubric_table_from_result</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import os
+from propaganda_pipeline import (
+    Configuracion,
+    Analisis,
+    run_consistency,
+    RunJuez,
+    visualize_spans,
+    synthesis_report,
+    show_rubric_table_from_result,
+)
 
-<span class="c1"># Configure the LLM — gpt-4o-2024-08-06 is recommended for best accuracy</span>
-<span class="n">cfg</span> <span class="o">=</span> <span class="n">Configuracion</span><span class="p">(</span>
-    <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;gpt-4o-2024-08-06&quot;</span><span class="p">,</span>
-    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;YOUR_OPENAI_API_KEY&quot;</span><span class="p">),</span>
-<span class="p">)</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LLM configured successfully.&quot;</span><span class="p">)</span>
+# Configure the LLM — gpt-4o-2024-08-06 is recommended for best accuracy
+cfg = Configuracion(
+    model_name=&quot;gpt-4o-2024-08-06&quot;,
+    api_key=os.environ.get(&quot;OPENAI_API_KEY&quot;, &quot;YOUR_OPENAI_API_KEY&quot;),
+)
+cfg.setup()
+print(&quot;LLM configured successfully.&quot;)
 </pre></div>
 </div>
 </div>
@@ -427,15 +427,15 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: False Dilemma + Appeal to Fear</span>
-<span class="n">TEXT</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="s2">&quot;Referring to your claim that providing medicare for all citizens would be costly &quot;</span>
-    <span class="s2">&quot;and a danger to the free market, I infer that you don&#39;t care if people die from &quot;</span>
-    <span class="s2">&quot;not having healthcare, so we are not going to support your endeavour.&quot;</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Example: False Dilemma + Appeal to Fear
+TEXT = (
+    &quot;Referring to your claim that providing medicare for all citizens would be costly &quot;
+    &quot;and a danger to the free market, I infer that you don&#39;t care if people die from &quot;
+    &quot;not having healthcare, so we are not going to support your endeavour.&quot;
+)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Text (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">TEXT</span><span class="p">)</span><span class="si">}</span><span class="s2"> chars):&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">TEXT</span><span class="p">)</span>
+print(f&quot;Text ({len(TEXT)} chars):&quot;)
+print(TEXT)
 </pre></div>
 </div>
 </div>
@@ -450,15 +450,15 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">analisis</span> <span class="o">=</span> <span class="n">Analisis</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>analisis = Analisis()
 
-<span class="c1"># Single run — returns a list of 23 candidate dicts</span>
-<span class="n">candidates_single</span> <span class="o">=</span> <span class="n">analisis</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">TEXT</span><span class="p">)</span>
+# Single run — returns a list of 23 candidate dicts
+candidates_single = analisis.run(TEXT)
 
-<span class="c1"># Quick peek at the structure of one candidate</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="n">example</span> <span class="o">=</span> <span class="n">candidates_single</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">example</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;raw&quot;</span><span class="p">},</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+# Quick peek at the structure of one candidate
+import json
+example = candidates_single[0]
+print(json.dumps({k: v for k, v in example.items() if k != &quot;raw&quot;}, indent=2, ensure_ascii=False))
 </pre></div>
 </div>
 </div>
@@ -475,14 +475,14 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recommended for production — runs 5 trials and requires unanimous agreement</span>
-<span class="n">candidates</span> <span class="o">=</span> <span class="n">run_consistency</span><span class="p">(</span><span class="n">analisis</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Recommended for production — runs 5 trials and requires unanimous agreement
+candidates = run_consistency(analisis, TEXT, trials=5, threshold=1.0)
 
-<span class="c1"># Show techniques detected (answer = &quot;Sí&quot;) with their ratio</span>
-<span class="n">detected</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;ratio&quot;</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Sí&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">detected</span><span class="p">)</span><span class="si">}</span><span class="s2"> technique(s):&quot;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">model</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">conf</span> <span class="ow">in</span> <span class="n">detected</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">model</span><span class="si">:</span><span class="s2">35s</span><span class="si">}</span><span class="s2">  ratio=</span><span class="si">{</span><span class="n">ratio</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">  confidence=</span><span class="si">{</span><span class="n">conf</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+# Show techniques detected (answer = &quot;Sí&quot;) with their ratio
+detected = [(c[&quot;model&quot;], c[&quot;ratio&quot;], c[&quot;confidence&quot;]) for c in candidates if c[&quot;answer&quot;] == &quot;Sí&quot;]
+print(f&quot;Detected {len(detected)} technique(s):&quot;)
+for model, ratio, conf in detected:
+    print(f&quot;  {model:35s}  ratio={ratio:.2f}  confidence={conf:.2f}&quot;)
 </pre></div>
 </div>
 </div>
@@ -540,15 +540,15 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print all detected candidates with their rationale and spans</span>
-<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;Sí&quot;</span><span class="p">:</span>
-        <span class="k">continue</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">60</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Technique : </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Answer    : </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">  (ratio=</span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ratio&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, confidence=</span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rationale : </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;rationale_summary&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spans     : </span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;span&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Print all detected candidates with their rationale and spans
+for c in candidates:
+    if c[&quot;answer&quot;] != &quot;Sí&quot;:
+        continue
+    print(f&quot;{&#39;=&#39;*60}&quot;)
+    print(f&quot;Technique : {c[&#39;model&#39;]}&quot;)
+    print(f&quot;Answer    : {c[&#39;answer&#39;]}  (ratio={c.get(&#39;ratio&#39;, &#39;-&#39;):.2f}, confidence={c[&#39;confidence&#39;]:.2f})&quot;)
+    print(f&quot;Rationale : {c[&#39;rationale_summary&#39;]}&quot;)
+    print(f&quot;Spans     : {c[&#39;span&#39;]}&quot;)
 </pre></div>
 </div>
 </div>
@@ -593,12 +593,12 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">RunJuez</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>result = RunJuez(TEXT, candidates, confidence_threshold=0.9)
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Judge completed in </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;elapsed_sec&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Final answer:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;final_answer&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Reasoning:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;synthesis&#39;</span><span class="p">][</span><span class="s1">&#39;brief_reasoning&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Selected models: </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;selected_models_posthoc&#39;</span><span class="p">][</span><span class="s1">&#39;selected_models&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+print(f&quot;Judge completed in {result[&#39;elapsed_sec&#39;]:.1f}s&quot;)
+print(f&quot;\nFinal answer:\n{result[&#39;synthesis&#39;][&#39;final_answer&#39;]}&quot;)
+print(f&quot;\nReasoning:\n{result[&#39;synthesis&#39;][&#39;brief_reasoning&#39;]}&quot;)
+print(f&quot;\nSelected models: {result[&#39;selected_models_posthoc&#39;][&#39;selected_models&#39;]}&quot;)
 </pre></div>
 </div>
 </div>
@@ -613,11 +613,11 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_rubric_table_from_result</span><span class="p">(</span>
-    <span class="n">result</span><span class="p">,</span>
-    <span class="n">candidates</span><span class="o">=</span><span class="n">candidates</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Rubric scores by technique&quot;</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>show_rubric_table_from_result(
+    result,
+    candidates=candidates,
+    title=&quot;Rubric scores by technique&quot;
+)
 </pre></div>
 </div>
 </div>
@@ -629,14 +629,14 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">html_card</span> <span class="o">=</span> <span class="n">synthesis_report</span><span class="p">(</span>
-    <span class="n">TEXT</span><span class="p">,</span>
-    <span class="n">judged</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;judged&quot;</span><span class="p">],</span>
-    <span class="n">topk</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;topk&quot;</span><span class="p">],</span>
-    <span class="n">synthesis</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;synthesis&quot;</span><span class="p">],</span>
-    <span class="n">selection</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;selected_models_posthoc&quot;</span><span class="p">],</span>
-    <span class="n">display_inline</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>html_card = synthesis_report(
+    TEXT,
+    judged=result[&quot;judged&quot;],
+    topk=result[&quot;topk&quot;],
+    synthesis=result[&quot;synthesis&quot;],
+    selection=result[&quot;selected_models_posthoc&quot;],
+    display_inline=True
+)
 </pre></div>
 </div>
 </div>
@@ -648,20 +648,20 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selection</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;selected_models_posthoc&quot;</span><span class="p">]</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>selection = result[&quot;selected_models_posthoc&quot;]
 
-<span class="n">html_spans</span> <span class="o">=</span> <span class="n">visualize_spans</span><span class="p">(</span>
-    <span class="n">TEXT</span><span class="p">,</span>
-    <span class="n">candidates</span><span class="p">,</span>
-    <span class="n">selection</span><span class="p">,</span>
-    <span class="n">display_inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">show_legend</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
-    <span class="n">show_badges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">boxed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Detected spans&quot;</span><span class="p">,</span>
-    <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;⚖️&quot;</span><span class="p">,</span>
-    <span class="n">accent_color</span><span class="o">=</span><span class="s2">&quot;#111827&quot;</span>
-<span class="p">)</span>
+html_spans = visualize_spans(
+    TEXT,
+    candidates,
+    selection,
+    display_inline=True,
+    show_legend=&quot;bottom&quot;,
+    show_badges=False,
+    boxed=True,
+    title=&quot;Detected spans&quot;,
+    icon=&quot;⚖️&quot;,
+    accent_color=&quot;#111827&quot;
+)
 </pre></div>
 </div>
 </div>
@@ -675,31 +675,31 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">TEXTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;false_dilemma&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;Either you support our policy completely or you want the country to fail. &quot;</span>
-        <span class="s2">&quot;There is no middle ground.&quot;</span>
-    <span class="p">),</span>
-    <span class="s2">&quot;appeal_to_authority&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;Dr. Johnson, one of the world&#39;s leading economists, confirmed that &quot;</span>
-        <span class="s2">&quot;this tax cut will definitely grow the economy. Therefore it&#39;s true.&quot;</span>
-    <span class="p">),</span>
-    <span class="s2">&quot;name_calling&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;These radical socialist extremists want to destroy everything we&#39;ve built. &quot;</span>
-        <span class="s2">&quot;Don&#39;t listen to their dangerous, un-American agenda.&quot;</span>
-    <span class="p">),</span>
-<span class="p">}</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>TEXTS = {
+    &quot;false_dilemma&quot;: (
+        &quot;Either you support our policy completely or you want the country to fail. &quot;
+        &quot;There is no middle ground.&quot;
+    ),
+    &quot;appeal_to_authority&quot;: (
+        &quot;Dr. Johnson, one of the world&#39;s leading economists, confirmed that &quot;
+        &quot;this tax cut will definitely grow the economy. Therefore it&#39;s true.&quot;
+    ),
+    &quot;name_calling&quot;: (
+        &quot;These radical socialist extremists want to destroy everything we&#39;ve built. &quot;
+        &quot;Don&#39;t listen to their dangerous, un-American agenda.&quot;
+    ),
+}
 
-<span class="n">results_batch</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">TEXTS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Analyzing: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
-    <span class="n">cands</span> <span class="o">=</span> <span class="n">run_consistency</span><span class="p">(</span><span class="n">analisis</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.67</span><span class="p">)</span>  <span class="c1"># faster: 3 trials</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">RunJuez</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">cands</span><span class="p">)</span>
-    <span class="n">selected</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;selected_models_posthoc&quot;</span><span class="p">][</span><span class="s2">&quot;selected_models&quot;</span><span class="p">]</span>
-    <span class="n">results_batch</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">selected</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  → </span><span class="si">{</span><span class="n">selected</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+results_batch = {}
+for label, text in TEXTS.items():
+    print(f&quot;Analyzing: {label}...&quot;)
+    cands = run_consistency(analisis, text, trials=3, threshold=0.67)  # faster: 3 trials
+    res = RunJuez(text, cands)
+    selected = res[&quot;selected_models_posthoc&quot;][&quot;selected_models&quot;]
+    results_batch[label] = selected
+    print(f&quot;  → {selected}&quot;)
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Batch complete.&quot;</span><span class="p">)</span>
+print(&quot;\nBatch complete.&quot;)
 </pre></div>
 </div>
 </div>
@@ -712,14 +712,14 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">propaganda_pipeline</span> <span class="kn">import</span> <span class="n">FalseDilemmaRunner</span><span class="p">,</span> <span class="n">StrawmanRunner</span><span class="p">,</span> <span class="n">FearPrejudiceRunner</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from propaganda_pipeline import FalseDilemmaRunner, StrawmanRunner, FearPrejudiceRunner
 
-<span class="c1"># Only run three specific detectors</span>
-<span class="n">analisis_subset</span> <span class="o">=</span> <span class="n">Analisis</span><span class="p">(</span><span class="n">techniques</span><span class="o">=</span><span class="p">[</span><span class="n">FalseDilemmaRunner</span><span class="p">,</span> <span class="n">StrawmanRunner</span><span class="p">,</span> <span class="n">FearPrejudiceRunner</span><span class="p">])</span>
+# Only run three specific detectors
+analisis_subset = Analisis(techniques=[FalseDilemmaRunner, StrawmanRunner, FearPrejudiceRunner])
 
-<span class="n">cands_subset</span> <span class="o">=</span> <span class="n">analisis_subset</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">TEXT</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cands_subset</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">25s</span><span class="si">}</span><span class="s2">  answer=</span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;answer&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">  confidence=</span><span class="si">{</span><span class="n">c</span><span class="p">[</span><span class="s1">&#39;confidence&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+cands_subset = analisis_subset.run(TEXT)
+for c in cands_subset:
+    print(f&quot;{c[&#39;model&#39;]:25s}  answer={c[&#39;answer&#39;]}  confidence={c[&#39;confidence&#39;]:.2f}&quot;)
 </pre></div>
 </div>
 </div>
@@ -732,19 +732,19 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the False Dilemma candidate and inspect its raw output</span>
-<span class="n">fd_candidate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;FALSE_DILEMMA&quot;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Find the False Dilemma candidate and inspect its raw output
+fd_candidate = next((c for c in candidates if c[&quot;model&quot;] == &quot;FALSE_DILEMMA&quot;), None)
 
-<span class="k">if</span> <span class="n">fd_candidate</span><span class="p">:</span>
-    <span class="n">raw</span> <span class="o">=</span> <span class="n">fd_candidate</span><span class="p">[</span><span class="s2">&quot;raw&quot;</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;is_fd                : </span><span class="si">{</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_fd&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;options_extracted    : </span><span class="si">{</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;options_extracted&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;third_options_possible: </span><span class="si">{</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;third_options_possible&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;erases_continuum     : </span><span class="si">{</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;erases_continuum&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;justification        : </span><span class="si">{</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;justification&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;confidence           : </span><span class="si">{</span><span class="n">raw</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;confidence&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FALSE_DILEMMA not in candidates list.&quot;</span><span class="p">)</span>
+if fd_candidate:
+    raw = fd_candidate[&quot;raw&quot;]
+    print(f&quot;is_fd                : {raw.get(&#39;is_fd&#39;)}&quot;)
+    print(f&quot;options_extracted    : {raw.get(&#39;options_extracted&#39;)}&quot;)
+    print(f&quot;third_options_possible: {raw.get(&#39;third_options_possible&#39;)}&quot;)
+    print(f&quot;erases_continuum     : {raw.get(&#39;erases_continuum&#39;)}&quot;)
+    print(f&quot;justification        : {raw.get(&#39;justification&#39;)}&quot;)
+    print(f&quot;confidence           : {raw.get(&#39;confidence&#39;)}&quot;)
+else:
+    print(&quot;FALSE_DILEMMA not in candidates list.&quot;)
 </pre></div>
 </div>
 </div>
@@ -766,7 +766,7 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
 <span class="p">)</span>
 
 <span class="c1"># 3. Judge</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">RunJuez</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">RunJuez</span><span class="p">(</span><span class="n">TEXT</span><span class="p">,</span> <span class="n">candidates</span><span class="p">,</span> <span class="n">confidence_threshold</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
 
 <span class="c1"># result keys:</span>
 <span class="c1">#   result[&quot;judged&quot;]                  → rubric scores</span>
@@ -888,11 +888,11 @@ result dict             ← judged, topk, synthesis, selected_models_posthoc
     </aside>
   </div>
 </div><script src="_static/documentation_options.js?v=8d563738"></script>
-    <script src="_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>
