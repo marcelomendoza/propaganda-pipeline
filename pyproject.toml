@@ -18,6 +18,11 @@ dependencies = [
     "openai>=1.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/marcelomendoza/propaganda-pipeline"
+Documentation = "https://marcelomendoza.github.io/propaganda-pipeline/"
+Repository = "https://github.com/marcelomendoza/propaganda-pipeline"
+
 [project.optional-dependencies]
 dev = ["sphinx>=8", "furo", "nbsphinx", "jupyter"]
 
