@@ -31,6 +31,7 @@ html_theme_options = {
     "footer_icons": [],
 }
 html_last_updated_fmt = None
+html_extra_path = [".nojekyll"]  # prevents GitHub Pages/Jekyll from ignoring _static dirs
 html_sidebars = {
     "**": [
         "sidebar/brand.html",
