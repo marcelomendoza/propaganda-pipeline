@@ -5071,6 +5071,13 @@ class Analisis:
         cfg.setup()
         analisis = Analisis()
         candidates = analisis.run(TEXTO)
+
+        # Pass candidates directly to RunJuez.  Use confidence_threshold to
+        # recover techniques whose individual confidence meets the bar even
+        # when no ratio is available (e.g. single-run Analisis without
+        # run_consistency).  Default is 0.9.
+        result = RunJuez(TEXTO, candidates)                        # threshold=0.9
+        result = RunJuez(TEXTO, candidates, confidence_threshold=0.85)  # looser
     """
 
     def __init__(self, techniques: Optional[List[Type[TechniqueRunner]]] = None):
@@ -5674,7 +5681,7 @@ def get_modules():
     return JUDGE_MOD, SYNTH_MOD, SELECTOR_MOD
 
 
-def RunJuez(TEXTO: str, candidates: List[Dict[str, Any]], rubric: Optional[str] = None) -> Dict[str, Any]:
+def RunJuez(TEXTO: str, candidates: List[Dict[str, Any]], rubric: Optional[str] = None, confidence_threshold: float = 0.9) -> Dict[str, Any]:
     """Run the full judge pipeline: scoring, synthesis, and post-hoc selection.
 
     Executes three sequential steps:
@@ -5689,11 +5696,24 @@ def RunJuez(TEXTO: str, candidates: List[Dict[str, Any]], rubric: Optional[str] 
         The ``rubric`` parameter is accepted for API compatibility but ignored;
         DEFAULT_RUBRIC is always used to ensure consistent evaluation.
 
+        The ``confidence_threshold`` parameter adds a confidence-based selection
+        layer on top of the rubric. Candidates whose ``answer`` affirms the
+        technique (starts with "s", case-insensitive) **and** whose
+        ``confidence >= confidence_threshold`` are always included, even when
+        the rubric's weighted total does not reach its own inclusion cut-off.
+        This is especially useful when candidates come from ``Analisis.run()``
+        directly (no ``run_consistency``), because without a ``ratio`` the
+        rubric's consistency criterion scores 1/5 and the weighted total is
+        capped well below the rubric threshold regardless of confidence.
+
     Args:
         TEXTO: The original text that was analyzed.
         candidates: List of candidate dicts from Analisis.run() or
             run_consistency().
         rubric: Ignored. DEFAULT_RUBRIC is always applied.
+        confidence_threshold: Minimum confidence for a candidate to be
+            included via the confidence-based path. Must be in [0.0, 1.0].
+            Default 0.9.
 
     Returns:
         Dict with keys:
@@ -5726,9 +5746,21 @@ def RunJuez(TEXTO: str, candidates: List[Dict[str, Any]], rubric: Optional[str] 
 
     scores_list = judged.scores.candidates or []
 
-    # topk: solo índices con include=True según la rúbrica
+    # Índices seleccionados por la rúbrica (include=True)
+    rubric_indices = set(judged.selected_indices)
+
+    # Índices seleccionados por umbral de confianza: answer afirmativo + confidence >= confidence_threshold
+    conf_indices = {
+        i for i, c in enumerate(candidates)
+        if str(c.get("answer", "")).strip().lower().startswith("s")
+        and float(c.get("confidence", 0.0) or 0.0) >= confidence_threshold
+    }
+
+    # Unión: se incluye todo lo que pase la rúbrica O el umbral de confianza
+    combined_indices = sorted(rubric_indices | conf_indices)
+
     topk: List[Dict[str, Any]] = []
-    for i in judged.selected_indices:
+    for i in combined_indices:
         base = candidates[i]
         extra = scores_list[i].model_dump() if i < len(scores_list) else {}
         topk.append({**base, **extra})
@@ -5739,16 +5771,16 @@ def RunJuez(TEXTO: str, candidates: List[Dict[str, Any]], rubric: Optional[str] 
     )
 
     # Selección post-hoc basada en razonamiento,
-    # pero restringida EXCLUSIVAMENTE a modelos seleccionados por la rúbrica.
+    # restringida a modelos seleccionados por rúbrica O por umbral de confianza.
     selection_out = selector_mod.forward(
         final_answer=synth_out.brief_reasoning or synth_out.final_answer,
         candidates=candidates
     )
 
-    # Conjunto de modelos permitidos por rúbrica
+    # Conjunto de modelos permitidos (rúbrica + confianza)
     allowed_models = {
         candidates[i].get("model")
-        for i in judged.selected_indices
+        for i in combined_indices
         if 0 <= i < len(candidates)
     }
 
